@@ -22,6 +22,8 @@ smart-dca init-db
 smart-dca import-sample-data
 smart-dca report --date 2026-05-08
 smart-dca backtest --start 2026-05-04 --end 2026-05-08
+smart-dca web
+smart-dca export-site
 ```
 
 You can also run the CLI as a module:
@@ -29,6 +31,25 @@ You can also run the CLI as a module:
 ```powershell
 python -m smart_dca.cli report --date 2026-05-08
 ```
+
+Run the graphical local web app:
+
+```powershell
+python -m streamlit run smart_dca/web_app.py
+```
+
+Generate a static GitHub Pages site:
+
+```powershell
+python -m smart_dca.cli export-site
+```
+
+This writes:
+
+- `docs/index.html`
+- `docs/daily_plan.csv`
+
+In GitHub, enable Pages with `Settings -> Pages -> Deploy from a branch -> main / docs`.
 
 ## Strategy
 
@@ -89,6 +110,8 @@ smart-dca init-db
 smart-dca import-sample-data
 smart-dca report --date 2026-05-08
 smart-dca backtest --start 2026-05-04 --end 2026-05-08
+smart-dca web
+smart-dca export-site
 ```
 
 如果 `smart-dca` 命令不在 PATH 中，也可以用模块方式运行：
@@ -96,6 +119,33 @@ smart-dca backtest --start 2026-05-04 --end 2026-05-08
 ```powershell
 python -m smart_dca.cli report --date 2026-05-08
 ```
+
+启动本地图形化页面：
+
+```powershell
+python -m streamlit run smart_dca/web_app.py
+```
+
+页面会在浏览器中显示今日计划、原因说明、指数走势、回撤图、投入金额和顺延现金。左侧可以初始化数据库、导入样例数据、选择计划日期和运行区间回测。
+
+生成 GitHub Pages 静态展示页：
+
+```powershell
+python -m smart_dca.cli export-site
+```
+
+默认会输出：
+
+- `docs/index.html`
+- `docs/daily_plan.csv`
+
+然后在 GitHub 仓库中打开：
+
+```text
+Settings -> Pages -> Deploy from a branch -> main / docs
+```
+
+这个静态页只负责展示，不会在线运行 Python，也不会执行真实交易。
 
 ## 策略逻辑
 

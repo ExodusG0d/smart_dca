@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import importlib.util
+import subprocess
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -11,6 +14,7 @@ from smart_dca.config import load_config
 from smart_dca.core.strategy import StrategyEngine
 from smart_dca.data_sources.manual_csv_source import ManualCsvSource
 from smart_dca.reports.daily_report import build_rich_table, write_daily_report
+from smart_dca.reports.static_site import build_static_site
 from smart_dca.storage.db import SQLiteDataSource, SmartDcaDB
 
 app = typer.Typer(help="Smart DCA planner for index ETFs.")
@@ -47,6 +51,54 @@ def import_sample_data(config_dir: Path = typer.Option(Path("config"), help="Con
     db = SmartDcaDB(config.strategy.db_path)
     db.import_csv_source(source)
     console.print(f"Imported sample CSV data from {config.strategy.data_dir} into {db.path}")
+
+
+@app.command("web")
+def web(
+    host: str = typer.Option("localhost", help="Host for the Streamlit server."),
+    port: int = typer.Option(8501, help="Port for the Streamlit server."),
+) -> None:
+    if importlib.util.find_spec("streamlit") is None:
+        console.print("Streamlit is not installed. Run `python -m pip install -e .` first.")
+        raise typer.Exit(code=1)
+
+    script_path = Path(__file__).with_name("web_app.py")
+    command = [
+        sys.executable,
+        "-m",
+        "streamlit",
+        "run",
+        str(script_path),
+        "--server.address",
+        host,
+        "--server.port",
+        str(port),
+    ]
+    raise typer.Exit(code=subprocess.call(command))
+
+
+@app.command("export-site")
+def export_site(
+    report_date: str | None = typer.Option(None, "--date", help="Static site report date, YYYY-MM-DD."),
+    output_dir: Path = typer.Option(Path("docs"), help="Output directory for GitHub Pages static files."),
+    config_dir: Path = typer.Option(Path("config"), help="Config directory."),
+    import_sample: bool = typer.Option(
+        True,
+        "--import-sample/--no-import-sample",
+        help="Import sample CSV data if the SQLite database is empty.",
+    ),
+) -> None:
+    config = load_config(config_dir)
+    parsed_date = None if report_date is None else _parse_date(report_date, "--date")
+    result = build_static_site(
+        config=config,
+        output_dir=output_dir,
+        report_date=parsed_date,
+        import_sample_if_empty=import_sample,
+    )
+    console.print(f"Exported static site for {result.report_date.isoformat()}")
+    console.print(f"Wrote {result.index_path}")
+    console.print(f"Wrote {result.csv_path}")
 
 
 @app.command("report")

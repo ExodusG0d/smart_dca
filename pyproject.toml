@@ -14,6 +14,8 @@ dependencies = [
     "PyYAML>=6.0",
     "typer>=0.9",
     "rich>=13.0",
+    "streamlit>=1.35",
+    "plotly>=5.20",
 ]
 
 [project.optional-dependencies]
