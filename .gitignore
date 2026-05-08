@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local runtime data
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# Generated reports
+reports/daily/*.md
+reports/daily/*.csv
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

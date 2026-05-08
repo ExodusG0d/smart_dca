@@ -1,0 +1,19 @@
+etfs:
+  - id: "513500"
+    name: S&P 500 ETF
+    index_id: sp500
+    allocation_weight: 0.34
+    currency: CNY
+    lot_size: 100
+  - id: "513100"
+    name: Nasdaq 100 ETF
+    index_id: nasdaq100
+    allocation_weight: 0.33
+    currency: CNY
+    lot_size: 100
+  - id: "510300"
+    name: CSI 300 ETF
+    index_id: csi300
+    allocation_weight: 0.33
+    currency: CNY
+    lot_size: 100

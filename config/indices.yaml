@@ -1,0 +1,13 @@
+indices:
+  - id: sp500
+    name: S&P 500
+    currency: USD
+    ma_window: 120
+  - id: nasdaq100
+    name: Nasdaq 100
+    currency: USD
+    ma_window: 120
+  - id: csi300
+    name: CSI 300
+    currency: CNY
+    ma_window: 120

@@ -1,0 +1,11 @@
+total_budget: 50000
+base_trading_days: 200
+data_dir: data/sample
+db_path: data/smart_dca.db
+report_dir: reports/daily
+premium_block_threshold: 0.005
+premium_half_threshold: 0.002
+final_multiplier_min: 0
+final_multiplier_max: 2.5
+missing_valuation_multiplier_min: 0.3
+missing_valuation_multiplier_max: 2.0
